@@ -303,7 +303,7 @@ Row {data-width=400}
 
 ### Mapa de casos positivos en cantones
 ```{r}
-p_bins <- c(0,500,1000,2000,3000,4000,5000,10000,15000,Inf)
+p_bins <- c(0,1000,2000,4000,10000,15000,Inf)
 paleta_azul <- colorBin(palette = "YlOrBr", 
                         domain = sf_positivos_cantones_ultima_fecha$positivos,
                         bins = p_bins
@@ -385,7 +385,7 @@ Row {data-width=400}
 
 ### Mapa de casos activos en cantones
 ```{r}
-a_bins <- c(0,500,1000,1100,1200,1300,1400,1500,2000,3000,4000,5000,Inf)
+a_bins <- c(0,500,1000,1500,2000,4000,5000,Inf)
 paleta_activos <- colorBin(palette = "Reds", 
                            domain = sf_activos_cantones_ultima_fecha$activos,
                            bins = a_bins
@@ -465,7 +465,7 @@ Row {data-width=400}
 -----------------------------------------------------------------------
 ### Mapa de casos recuperados en cantones
 ```{r}
-r_bins <- c(0,500,1000,1500,2000,2500,3000,3500,4000,Inf)
+r_bins <- c(0,500,1000,2000,3000,3500,4000,Inf)
 paleta_recuperados <- colorBin(palette = "Greens", 
                                domain = sf_recuperados_cantones_ultima_fecha$recuperados,
                                bins = r_bins
@@ -546,7 +546,7 @@ Row {data-width=400}
 
 ### Mapa de casos fallecidos en cantones
 ```{r}
-f_bins <- c(0,25,50,75,100,150,200,250,Inf)
+f_bins <- c(0,50,100,150,200,250,Inf)
 paleta_fallecidos <- colorBin(palette = "Greys", 
                            domain = sf_fallecidos_cantones_ultima_fecha$fallecidos,
                            bins = f_bins
