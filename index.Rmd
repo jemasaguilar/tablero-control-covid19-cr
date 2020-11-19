@@ -188,9 +188,9 @@ df_general_distritos_ultima_fecha$fallecidos <- as.integer(df_general_distritos_
 df_general_distritos_ultima_fecha$activos <- as.integer(df_general_distritos_ultima_fecha$activos)
 # Objeto sf de distritos
 # Capa simplificada
-# sf_distritos <- st_read('https://raw.githubusercontent.com/pf0953-programaciongeoespacialr-2020/datos/master/delimitacion-territorial-administrativa/cr/ign/cr_limite_distrital_ign_wgs84.geojson')
+ sf_distritos <- st_read('https://raw.githubusercontent.com/pf0953-programaciongeoespacialr-2020/datos/master/delimitacion-territorial-administrativa/cr/ign/cr_limite_distrital_ign_wgs84.geojson')
 # Capa detallada
-sf_distritos <- st_read('https://raw.githubusercontent.com/pf0953-programaciongeoespacialr-2020/datos/master/delimitacion-territorial-administrativa/cr/ign/cr_distritos_ign_wgs84.geojson')
+#sf_distritos <- st_read('https://raw.githubusercontent.com/pf0953-programaciongeoespacialr-2020/datos/master/delimitacion-territorial-administrativa/cr/ign/cr_distritos_ign_wgs84.geojson')
 # Objeto sf de casos positivos en distritos en la última fecha
 sf_general_distritos_ultima_fecha <-
   left_join(sf_distritos, df_general_distritos_ultima_fecha, by = c('provincia', 'canton', 'distrito'))
@@ -650,9 +650,9 @@ layout(yaxis = list(title = "Cantidad de casos fallecidos"),
 
 Mapa de calor
 =======================================================================
-Row {data-height=1}
+Row {data-height=10}
 -----------------------------------------------------------------------
-### **Última actualización de datos: `r  df_general_pais_ultima_fecha$FECHA`**
+### **Última actualización de datos realizada el `r  df_general_pais_ultima_fecha$FECHA` con base en los [datos publicados por el Ministerio de Salud de Costa Rica](http://geovision.uned.ac.cr/oges/)**.
 
 Row {data-width=400}
 -----------------------------------------------------------------------
@@ -690,25 +690,25 @@ leaflet() %>%
   addHeatmap(
     data = separated_coord,
     lng = ~long, lat = ~lat, intensity = ~positivos,
-    blur = 10, max = 5423, radius = 15,
+    blur = 10, max= max(separated_coord$positivos), radius = 15,
     group = "Casos positivos"
   ) %>%    
   addHeatmap(
     data = separated_coord,
     lng = ~long, lat = ~lat, intensity = ~activos,
-    blur = 10, max = 1106, radius = 15,
+    blur = 10, max= max(separated_coord$activos), radius = 15,
     group = "Casos activos"
   ) %>%  
   addHeatmap(
     data = separated_coord,
     lng = ~long, lat = ~lat, intensity = ~recuperados,
-    blur = 10, max = 4837, radius = 15,
+    blur = 10, max= max(separated_coord$recuperados), radius = 15,
     group = "Casos recuperados"
   ) %>%    
   addHeatmap(
     data = separated_coord,
     lng = ~long, lat = ~lat, intensity = ~fallecidos,
-    blur = 10, max = 54, radius = 15,
+    blur = 10, max= max(separated_coord$fallecidos), radius = 15,
     group = "Casos fallecidos"
   ) %>%      
   addLayersControl(
