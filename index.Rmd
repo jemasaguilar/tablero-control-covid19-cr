@@ -151,6 +151,7 @@ sf_recuperados_cantones_ultima_fecha <-
 sf_fallecidos_cantones_ultima_fecha <-
   left_join(sf_cantones, df_fallecidos_cantones_ultima_fecha, by = c('cod_canton')) %>%
   arrange(desc(fallecidos))
+
 ```
 ```{r, include=FALSE}
 #---------------------- Datos de distritos ---------------------
@@ -314,7 +315,7 @@ plot_ly(data = df_general_pais,
 ```
 
 ### Tabla de cantidades de casos en cantones
-```{r}
+"```{r}
 st_drop_geometry(sf_positivos_cantones_ultima_fecha) %>% 
   select(Provincia = provincia, Canton = canton, Positivos = positivos) %>%
   DT::datatable(rownames = FALSE,
@@ -322,6 +323,26 @@ st_drop_geometry(sf_positivos_cantones_ultima_fecha) %>%
                                language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')
                                )
   )
+```
+
+```{r}
+st_drop_geometry(sf_general_distritos_ultima_fecha) %>% 
+  select(Provincia = provincia, Canton = canton,  Distritos = distrito, Positivos = positivos, Activos = activos, Recuperados = recuperados, Fallecidos = fallecidos) %>%
+  DT::datatable(rownames = FALSE,
+                options = list(searchHighlight = TRUE, 
+                               language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')
+                               )
+  )
+```
+
+Row {data-width=400}
+-----------------------------------------------------------------------
+### Alerta de capacidad en salón UCI
+```{r}
+Capacidad_UCI <- df_general_pais_ultima_fecha$UCI
+gauge(Capacidad_UCI, min = 0, max = 359, gaugeSectors(
+  success = c(0, 150), warning = c(151, 250), danger = c(251, 359)
+))
 ```
 
 Casos positivos
@@ -378,7 +399,8 @@ leaflet_cantones <- leaflet(sf_positivos_cantones_ultima_fecha) %>%
     toggleDisplay = TRUE,
     position = "bottomleft",
     tiles = providers$OpenStreetMap.Mapnik
-  )
+  ) %>%
+  addScaleBar()
 
 # Despliegue del mapa
 leaflet_cantones
@@ -460,7 +482,9 @@ leaflet_cantones <- leaflet(sf_activos_cantones_ultima_fecha) %>%
     toggleDisplay = TRUE,
     position = "bottomleft",
     tiles = providers$OpenStreetMap.Mapnik
-  )
+  )%>%
+  addScaleBar()
+  
 # Despliegue del mapa
 leaflet_cantones
 ```
@@ -540,7 +564,8 @@ leaflet_cantones <- leaflet(sf_recuperados_cantones_ultima_fecha) %>%
     toggleDisplay = TRUE,
     position = "bottomleft",
     tiles = providers$OpenStreetMap.Mapnik
-  )
+  )%>%
+  addScaleBar()
 
 # Despliegue del mapa
 leaflet_cantones
@@ -620,7 +645,9 @@ leaflet_cantones <- leaflet(sf_fallecidos_cantones_ultima_fecha) %>%
     toggleDisplay = TRUE,
     position = "bottomleft",
     tiles = providers$OpenStreetMap.Mapnik
-  )
+  )%>%
+  addScaleBar()
+  
 # Despliegue del mapa
 leaflet_cantones
 ```
